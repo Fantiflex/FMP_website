@@ -20,49 +20,123 @@ export const projects: Project[] = [
     slug: 'minority-overestimation',
     number: '01',
     title: 'Measuring minority overestimation',
-    subtitle: 'Behavioral experiment · Social perception · Data analysis',
-    description: 'A controlled visual estimation experiment investigating how people estimate the prevalence of racial groups in social and non-social visual scenes.',
-    tags: ['Experimental design', 'Perception', 'Quantitative analysis'],
+    subtitle: 'Behavioral experiment · Social perception · Experimental design',
+    description:
+      'A controlled behavioral study testing whether people estimate group prevalence differently in social scenes than in visually matched non-social scenes.',
+
+    tags: [
+      'Experimental design',
+      'Behavioral research',
+      'Stimulus generation',
+      'Social perception',
+      'Python',
+      'JATOS',
+    ],
+
     visual: 'matrix',
-    codeSnippet: 'estimate = participant_response / total_stimuli\ncondition = scene_type × group_prevalence',
-    question: 'How do people estimate the prevalence of social groups when they encounter them in visual scenes?',
-    constraint: 'Estimates can shift with scene context, visual density, and the presence of social interaction. A useful measure needs to separate these influences without turning perception into a single universal judgment.',
-    approach: 'A controlled visual estimation task pairs carefully varied scenes with a proportion-estimation response. The design makes scene type and group prevalence legible as independent experimental conditions.',
-    system: 'Scene composition → randomized trial presentation → participant estimate → condition-level analysis',
-    result: 'The study produces participant-level estimates that can be compared across social and non-social contexts and across the represented group proportions.',
-    reflection: 'The experiment makes a complex social judgment measurable, but visual stimuli can never represent the full contexts in which people form impressions. Future work can test more naturalistic scenes and broaden participant populations.',
+
+    codeSnippet:
+      'stimulus_type = social | nonsocial\ncomposition = black_perceived / 64\nestimate_error = participant_estimate - true_percentage',
+
+    question:
+      'Does the social meaning of a scene influence how people estimate the prevalence of a minority group?',
+
+    constraint:
+      'A direct comparison between social and non-social perception requires controlling visual differences that could otherwise explain estimation bias. The experiment therefore pairs face grids with non-social circle grids that preserve the same composition, spatial arrangement, and stimulus-level luminance information.',
+
+    approach:
+      'I designed three experimental conditions—mixed, social-only, and non-social-only—using 8×8 grids at nine group compositions. Social stimuli are drawn from the Chicago Face Database, filtered using perceptual norming criteria and age-matched across Black-perceived and White-perceived groups. Each corresponding circle stimulus inherits the luminance of its source face, creating a visually analogous non-social control.',
+
+    system:
+      'CFD metadata → perceptual filtering → age matching → face-region extraction → luminance and area calibration → paired face/circle matrix generation → randomized JATOS experiment → participant prevalence estimate → condition-level analysis',
+
+    result:
+      'The pipeline produces 45 face grids and 45 matched circle grids across nine prevalence levels, with five stimulus versions per level. Participants complete one of three study conditions, enabling comparisons between social and non-social estimation while holding key low-level visual properties constant.',
+
+    reflection:
+      'The design isolates social content more carefully than a simple faces-versus-shapes comparison, but the non-social stimuli may still acquire social meaning from the task context. The pilot therefore includes a funnel debrief probing whether participants interpreted the circles as representing racial groups. Pilot data collection is currently underway.',
   },
   {
     slug: 'internal-face-representations',
     number: '02',
     title: 'Reconstructing internal face representations',
-    subtitle: 'Computational cognitive science · Preference modeling',
-    description: 'Inferring participant-specific latent facial representations from pairwise choices using Bradley–Terry models and facial morphing.',
-    tags: ['Bradley–Terry models', 'Preference learning', 'Facial morphing'],
+    subtitle: 'Computational cognitive science · Preference modeling · Computer vision',
+
+    description:
+      'A participant-specific face reconstruction pipeline that infers latent preferences from pairwise judgments and maps them back into facial geometry and texture.',
+
+    tags: [
+      'Bradley–Terry models',
+      'Preference learning',
+      'Computer vision',
+      'MediaPipe',
+      'Facial morphing',
+      'Geometric alignment',
+    ],
+
     visual: 'faces',
-    codeSnippet: 'scores = BradleyTerry().fit(pairwise_choices)\nprototype = morph_space.decode(scores)',
-    question: 'Can a sequence of relative choices reveal a person-specific mental representation of a face?',
-    constraint: 'Pairwise preferences are indirect and noisy: each choice reveals a comparison, not a complete target. The model must infer a stable latent preference from sparse observations.',
-    approach: 'Pairwise judgments are modeled with a Bradley–Terry preference function. Estimated scores provide a principled ordering that can be mapped back into a face-morph space.',
-    system: 'Face pairs → pairwise decisions → Bradley–Terry scores → reconstructed representation',
-    result: 'The output is a participant-specific representation that summarizes preferences across the set of observed comparisons.',
-    reflection: 'A latent reconstruction is a model of preference rather than a direct readout of cognition. More adaptive sampling and out-of-sample validation can clarify its stability.',
+
+    codeSnippet:
+      'utilities = fit_bradley_terry(pairwise_choices)\nweights = utilities_to_reconstruction_weights(utilities)\nprototype = reconstruct_face(weights, aligned_faces, landmarks)',
+
+    question:
+      'Can repeated pairwise face choices reveal a participant-specific latent facial representation?',
+
+    constraint:
+      'Each response only indicates a relative preference between two faces, so the target representation is never observed directly. The method must recover a stable latent preference structure from sparse pairwise judgments, then translate those scores into a geometrically coherent facial reconstruction.',
+
+    approach:
+      'I built an end-to-end pipeline that fits a participant-specific Bradley–Terry model to pairwise choices, converts latent utilities into reconstruction weights, extracts 478 facial landmarks with MediaPipe, aligns faces to a shared coordinate system, and reconstructs weighted facial shape and texture using a common Delaunay triangulation and piecewise-affine warping.',
+
+    system:
+      'Pairwise judgments → Bradley–Terry latent utilities → reconstruction weights → MediaPipe landmarks → similarity alignment → stable landmark selection → common Delaunay triangulation → piecewise-affine warping → weighted facial prototype',
+
+    result:
+      'The pipeline produces a participant-specific reconstructed face together with its weighted target landmark configuration, reconstruction weights, topology information, and triangle-level quality-control diagnostics. The statistical pipeline can also be validated on simulated participants with known latent utilities before using real experimental responses.',
+
+    reflection:
+      'The reconstruction should be interpreted as a model of the preference structure induced by the experiment, not as a direct readout of a participant’s mental image. Its validity depends on the stimulus set, pairwise-comparison design, model assumptions, and geometric reconstruction choices. Future work can test adaptive pair selection, out-of-sample preference prediction, and reconstruction stability across repeated sessions.',
   },
   {
-    slug: 'precision-health',
+    slug: 'modular-manifold-muon',
     number: '03',
-    title: 'Machine learning for precision health',
-    subtitle: 'Machine learning · Clinical data · Evaluation',
-    description: 'Developing and evaluating machine learning models for biomedical and clinical prediction, including subgroup performance analysis.',
-    tags: ['Predictive modeling', 'Clinical data', 'Model evaluation'],
-    visual: 'evaluation',
-    codeSnippet: 'model.fit(train_features, train_labels)\nreport = evaluate(model, held_out, by=subgroup)',
-    question: 'How can predictive models support biomedical and clinical research while making their limitations visible?',
-    constraint: 'Clinical datasets are heterogeneous, outcomes may be imbalanced, and aggregate performance can obscure consequential differences between subgroups.',
-    approach: 'Build reproducible modeling workflows that define evaluation before optimization, compare candidate models, and report performance beyond a single summary score.',
-    system: 'Cohort definition → preprocessing → model training → held-out evaluation → subgroup analysis',
-    result: 'Evaluation outputs include discrimination curves, threshold-aware measures, and subgroup comparisons that help characterize where a model performs well or poorly.',
-    reflection: 'Predictive performance is not clinical utility. Future work should connect model evaluation to external validation, calibration, and the realities of clinical decision-making.',
+    title: 'Modular Manifold MuOn',
+    subtitle: 'Optimization research · Riemannian geometry · Deep learning',
+
+    description:
+      'Exploring Riemannian quasi-Newton methods as faster inner solvers for Manifold MuOn while preserving Stiefel-constrained neural network geometry.',
+
+    tags: [
+      'Riemannian optimization',
+      'L-BFGS',
+      'Stiefel manifold',
+      'Deep learning',
+      'PyTorch',
+      'Optimization benchmarks',
+    ],
+
+    visual: 'optimization',
+
+    codeSnippet:
+      'grad_tangent = project_to_tangent(W, grad)\ndirection = riemannian_lbfgs(grad_tangent, history)\nW_next = retract(W, direction)',
+
+    question:
+      'Can a limited-memory Riemannian quasi-Newton solver reduce the computational cost of Manifold MuOn without losing the geometric structure imposed on neural-network weights?',
+
+    constraint:
+      'The optimizer must remain on the Stiefel manifold while updating matrix-valued parameters efficiently. A practical replacement for the original inner solver therefore needs to preserve tangent-space geometry, maintain valid curvature information, and remain stable across architectures and learning rates.',
+
+    approach:
+      'I implemented Riemannian L-BFGS for Stiefel-constrained parameters together with a globalized variant that uses cautious curvature updates to reject unstable history pairs. Euclidean gradients are projected into the tangent space, quasi-Newton directions are computed from limited-memory curvature information, and each step is retracted back onto the manifold.',
+
+    system:
+      'Euclidean gradient → tangent-space projection → Riemannian L-BFGS direction → cautious curvature update → retraction onto the Stiefel manifold → neural-network parameter update',
+
+    result:
+      'The framework supports direct comparisons between the original inner solver, Riemannian L-BFGS variants, and Euclidean or manifold-based baselines across MLP, CNN, and Vision Transformer experiments, with runtime, convergence, and learning-rate robustness as the main evaluation dimensions.',
+
+    reflection:
+      'Quasi-Newton methods can reduce repeated inner-optimization overhead, but their advantage depends on the quality and stability of curvature information on the manifold. The globalized variant therefore trades some aggressiveness for robustness by rejecting degenerate curvature updates. Further work can test scaling behavior on larger models and characterize when manifold constraints provide gains beyond their computational cost.',
   },
   {
     slug: 'ufo-recordz',

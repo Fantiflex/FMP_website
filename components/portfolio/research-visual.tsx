@@ -1,5 +1,7 @@
 import { useId } from 'react'
 import type { Project } from '@/data/projects'
+import Image from 'next/image'
+
 
 type Visual = Project['visual']
 type FigureFrameProps = {
@@ -88,10 +90,18 @@ function EvaluationPlot() {
 
 function MusicInterface() {
   return (
-    <div className="music-window" role="img" aria-label="Interface sketch for an independent electronic music archive">
-      <div className="window-top"><span className="window-mark">UFO<span>.</span>RECORDZ</span><span className="mono">INDEPENDENT / ELECTRONIC</span><span className="window-menu">MENU +</span></div>
-      <div className="music-main"><div className="music-side mono">LABEL<br />ARCHIVE<br />EST. 20—</div><div className="record-art" aria-hidden="true"><span>UFO</span><i /><b /></div><div className="release-copy"><span className="eyebrow">LATEST RELEASE / 004</span><strong>OUT OF<br />ORBIT</strong><span className="mono">LISTEN ON SOUNDCLOUD</span></div></div>
-      <div className="music-bottom"><span>RELEASES — ARTISTS — ABOUT</span><span className="mono">SOUND / FORM / COMMUNITY</span></div>
+    <div
+      className="ufo-logo-preview"
+      role="img"
+      aria-label="UFO Recordz logo"
+    >
+      <Image
+        src="/images/ufo-logo.png"
+        alt="UFO Recordz"
+        width={420}
+        height={420}
+        className="ufo-logo"
+      />
     </div>
   )
 }

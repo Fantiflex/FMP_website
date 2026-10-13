@@ -16,8 +16,8 @@ export function Navbar() {
   return (
     <header className="site-header">
       <div className="shell nav-shell">
-        <Link className="wordmark" href="/" aria-label="Fantine Mpacko-Priso, home" onClick={() => setMenuOpen(false)}>
-          Fantine Mpacko-Priso<span className="wordmark-dot">.</span>
+        <Link className="wordmark" href="/" aria-label="Fantine Mpacko Priso, home" onClick={() => setMenuOpen(false)}>
+          Fantine Mpacko Priso<span className="wordmark-dot">.</span>
         </Link>
         <button
           className="menu-toggle"

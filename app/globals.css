@@ -48,7 +48,7 @@ button { font: inherit; }
 .hero { padding-top: clamp(76px, 10vw, 140px); }
 .hero-kicker { display: flex; align-items: center; justify-content: space-between; }
 .availability { display: flex; align-items: center; gap: 9px; color: var(--quiet); font-family: var(--font-geist-mono), monospace; font-size: 10px; }
-.hero-title { margin: 28px 0 38px; font-size: clamp(72px, 13.4vw, 184px); font-weight: 500; letter-spacing: -.095em; line-height: .78; text-transform: uppercase; }
+.hero-title { margin: 28px 0 38px; font-size: clamp(32px, 13.4vw, 100px); font-weight: 400; letter-spacing: -0.07em; line-height: .78; }
 .hero-title span { color: var(--olive); }
 .hero-bottom { display: grid; grid-template-columns: 1fr minmax(260px, 390px); gap: 48px; align-items: end; padding-bottom: 58px; }
 .hero-disciplines { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-bottom: 5px; font-size: 13px; }

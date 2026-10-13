@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Project } from '@/data/projects'
 import { ProjectTags } from './project-tags'
 import { ResearchVisual } from './research-visual'
+import UFOOrb from '@/components/UFOOrb'
 
 export function ProjectPreview({ project }: { project: Project }) {
   return (
@@ -10,7 +11,6 @@ export function ProjectPreview({ project }: { project: Project }) {
         <header className="project-intro">
           <p className="project-index mono" aria-hidden="true">{project.number}</p>
           <div className="project-content">
-            <p className="project-question">{project.question}</p>
             <h3 className="project-title">
               <Link href={`/projects/${project.slug}`} className="project-title-link">{project.title}</Link>
             </h3>

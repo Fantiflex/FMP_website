@@ -8,11 +8,11 @@ const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fantine Mpacko-Priso — Research & Engineering',
-    template: '%s — Fantine Mpacko-Priso',
+    default: 'Fantine Mpacko Priso — Research & Engineering',
+    template: '%s — Fantine Mpacko Priso',
   },
-  description: 'Machine learning, computational health, cognitive science, and human-centered AI research by Fantine Mpacko-Priso.',
-  generator: 'v0.app',
+  description: 'Machine learning, computational health, cognitive science, and human-centered AI research by Fantine Mpacko Priso.',
+  generator: '',
 }
 
 export const viewport: Viewport = {
